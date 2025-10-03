@@ -101,7 +101,6 @@ ensure_pkg() {
 import importlib; import sys
 sys.exit(0 if importlib.util.find_spec("$pkg") else 1)
 PY
-  then
     log "Python пакет '$pkg' вже встановлено"
   else
     log "Встановлюю пакет '$pkg'..."
