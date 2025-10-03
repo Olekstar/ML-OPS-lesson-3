@@ -44,13 +44,13 @@ docker build -f Dockerfile.slim -t ml-infer-slim:latest .
 - Fat:
 ```bash
 docker run --rm -v $(pwd):/app -w /app ml-infer-fat:latest \
-  python inference.py --image /app/sample.jpg --model /app/model.pt
+  python3 inference.py --image /app/lesson-3/sample.jpg --model /app/lesson-3/model.pt
 ```
 
 - Slim:
 ```bash
 docker run --rm -v $(pwd):/app -w /app ml-infer-slim:latest \
-  python inference.py --image /app/sample.jpg --model /app/model.pt
+  python3 inference.py --image /app/lesson-3/sample.jpg --model /app/lesson-3/model.pt
 ```
 
 ## 5) Порівняння образів

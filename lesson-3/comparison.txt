@@ -1,24 +1,33 @@
 Порівняння Docker-образів (заповніть після збірки)
 
 1) Розмір образів:
-- ml-infer-fat: ______
-- ml-infer-slim: ______
+- ml-infer-fat: 1.41GB
+- ml-infer-slim: 1.06GB
 
 2) Кількість шарів (docker history):
-- fat: ______
-- slim: ______
+- fat: ~14
+- slim: ~17
 
 3) Зайві інструменти/пакети в fat:
-- приклад: build-essential, git, wget, тощо
+- build-essential, git, wget, curl, ca-certificates, libjpeg-dev, libpng-dev, python3-venv
 
 4) Оптимізації, застосовані в slim:
 - multi-stage
 - відсутність apt-пакетів у рантаймі
 - винос залежностей у віртуальне середовище
+ - менша базова ОС (python:3.10-slim)
 
 5) Ідеї подальшої оптимізації:
 - використати alpine/ubi/minimal runtime (за сумісності з torch)
 - заморозити залежності (requirements.txt)
 - увімкнути стиснення шарів (BuildKit), багатоетапне очищення кешів
 - зібрати `labels` у контейнер під час білду, щоб уникнути мережі під час запуску
+ - розділити ваги моделі на окремий шар та кешувати
+ - перейти на onnxruntime/tensorrt (за потреби і сумісності)
+
+6) Результат inference на реальному зображенні (`sample.jpg` — чайка з Wikimedia):
+- Top-3 класи:
+  1. albatross: 0.2557
+  2. goose: 0.0733
+  3. bald eagle: 0.0546
 

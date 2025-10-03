@@ -1,7 +1,7 @@
 # Slim образ (multi-stage)
 
 # Етап 1: builder з повним Python
-FROM python:3.10 as builder
+FROM python:3.10 AS builder
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Створюємо віртуальне середовище та встановлюємо залежності (CPU)
@@ -11,7 +11,7 @@ RUN pip install --upgrade pip && pip install pillow \
     && pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
 
 # Етап 2: мінімальний рантайм без apt
-FROM python:3.10-slim as runtime
+FROM python:3.10-slim AS runtime
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 # Копіюємо тільки віртуалку та застосунок
@@ -23,5 +23,5 @@ COPY lesson-3/inference.py /app/inference.py
 COPY lesson-3/model.pt /app/model.pt
 
 # Немає компіляторів, git, wget, тощо
-CMD ["python", "inference.py", "--help"]
+CMD ["python3", "inference.py", "--help"]
 
