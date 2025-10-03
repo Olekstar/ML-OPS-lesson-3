@@ -1,0 +1,29 @@
+# Важкий образ (fat)
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Багато системних залежностей (навмисно важко)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 python3-pip python3-venv \
+    build-essential git curl wget ca-certificates \
+    libjpeg-dev libpng-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Копіюємо тільки необхідне (модель повинна існувати локально)
+COPY lesson-3/inference.py /app/inference.py
+COPY lesson-3/export_model.py /app/export_model.py
+COPY lesson-3/model.pt /app/model.pt
+
+# Встановлюємо ML-залежності (CPU)
+RUN pip3 install --no-cache-dir --upgrade pip \
+    && pip3 install --no-cache-dir pillow \
+    && pip3 install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch torchvision
+
+# За замовчуванням просто показати допомогу
+CMD ["python3", "inference.py", "--help"]
+
